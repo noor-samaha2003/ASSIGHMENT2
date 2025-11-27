@@ -1,0 +1,64 @@
+ Employee Database SQL DDL
+ University ID: [202120331]
+Name: [Noor mohammad Abu Samaha]
+
+
+
+CREATE TABLE employee (
+    ID INT PRIMARY KEY,
+    person_name VARCHAR(100) NOT NULL,
+    street VARCHAR(100),
+    city VARCHAR(50)
+);
+
+
+CREATE TABLE company (
+    company_name VARCHAR(100) PRIMARY KEY,
+    city VARCHAR(50)
+);
+
+
+CREATE TABLE works (
+    ID INT PRIMARY KEY,
+    company_name VARCHAR(100) NOT NULL,
+    salary DECIMAL(10,2),
+    FOREIGN KEY (ID) REFERENCES employee(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (company_name) REFERENCES company(company_name)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+
+
+CREATE TABLE manages (
+    ID INT PRIMARY KEY,
+    manager_id INT NOT NULL,
+    FOREIGN KEY (ID) REFERENCES employee(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (manager_id) REFERENCES employee(ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+
+-- ========================================
+-- Sample Data
+-- ========================================
+
+-- إضافة الموظفين أولاً
+INSERT INTO employee (ID, person_name, street, city) VALUES
+(1, 'Noor Samaha', 'Street 123', 'Amman'),
+(2, 'Mustafa', 'Street 45', 'Irbid');
+
+-- إضافة الشركة
+INSERT INTO company (company_name, city) VALUES
+('TechCorp', 'Amman');
+
+-- إضافة بيانات works بعد الموظفين والشركة
+INSERT INTO works (ID, company_name, salary) VALUES
+(1, 'kayan', 5000.00);
+
+-- إضافة بيانات manages بعد الموظفين
+INSERT INTO manages (ID, manager_id) VALUES
+(2, 1);
