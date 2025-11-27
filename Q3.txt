@@ -1,0 +1,24 @@
+ Q3 : 
+SELECT
+    day,
+    qty,
+    SUM(qty) OVER (ORDER BY day) AS cumQty
+FROM demand;
+
+
+
+
+ Q4: 
+SELECT product, day, qty, RN
+FROM (
+    SELECT
+        product,
+        day,
+        qty,
+        ROW_NUMBER() OVER (
+            PARTITION BY product
+            ORDER BY qty ASC
+        ) AS RN
+    FROM demand
+) t
+WHERE RN <= 2;
